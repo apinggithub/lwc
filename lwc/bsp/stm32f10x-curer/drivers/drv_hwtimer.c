@@ -285,7 +285,7 @@ static void drv_timer_init(rt_device_hwtimer_t *timer, rt_uint8_t status)
                                     {
                                         HAL_TIM_OC_Init(&(hwtim->TimerHandle));                                        
                                         sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-                                        sConfigOC.OCPolarity = TIM_OCPOLARITY_LOW;//TIM_OCPOLARITY_HIGH;
+                                        sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;//TIM_OCPOLARITY_LOW;//
                                         sConfigOC.OCFastMode = TIM_OCFAST_DISABLE; 
                                         HAL_TIM_OC_ConfigChannel(&(hwtim->TimerHandle), &sConfigOC, TIM_CHANNEL_3);    
                                     }
@@ -362,7 +362,7 @@ static void drv_timer_init(rt_device_hwtimer_t *timer, rt_uint8_t status)
                                     {
                                         HAL_TIM_OC_Init(&(hwtim->TimerHandle));                                          
                                         sConfigOC.OCMode = TIM_OCMODE_TOGGLE;
-                                        sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+                                        sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;//TIM_OCPOLARITY_LOW;//
                                         sConfigOC.OCFastMode = TIM_OCFAST_DISABLE; 
                                         HAL_TIM_OC_ConfigChannel(&(hwtim->TimerHandle), &sConfigOC, TIM_CHANNEL_4);    
                                     }

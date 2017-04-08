@@ -258,7 +258,7 @@ void bubble32( unsigned int *src, unsigned char len, unsigned char up_down)
 }
 //折半查找无符号元素
 //在有序表R[1..n]中进行二分查找，成功时返回结点的位置，失败时返回-1
-char BinSearch(unsigned short *src, unsigned char len, unsigned short key)
+int BinSearch(unsigned short *src, unsigned char len, unsigned short key)
 {       
    unsigned char low,high, mid;//置当前查找区间上、下界的初值
  
@@ -296,7 +296,7 @@ char BinSearch(unsigned short *src, unsigned char len, unsigned short key)
 
 //二分插入法插入指定元素,前提是该队列至少有一个元素,删除成功后返回其位置
 //在有序表R[1..n]中进行二分查找，成功时返回结点的位置，失败时返回-1
-char BinSearchDelete(unsigned short *src, unsigned char len, unsigned short key)
+int BinSearchDelete(unsigned short *src, unsigned char len, unsigned short key)
 {       
    unsigned char i, low,high,mid;//置当前查找区间上、下界的初值
    //先确定非零元素表长
@@ -365,7 +365,7 @@ char BinSearchDelete(unsigned short *src, unsigned char len, unsigned short key)
 
 //二分插入法插入指定元素,前提是该队列未满,返回插入的位置
 //此算法不严谨，有问题，1~15先插入奇数后插入偶数时，会产生，4排在5的后面，10排在11后面的问题(升序排列)。
-char BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key)
+int BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key)
 { 
      unsigned char  i, low, high, mid,flag;
      if(src[len-1]!=0)//如果最后一个元素不空，说明队列已满
@@ -429,7 +429,7 @@ char BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key)
         
 }
 //元素插入后按冒泡法排序，然后返回元素的序列号，失败返回-1。
-char BubbleInsert(unsigned short* src, unsigned char len,unsigned short key)
+int BubbleInsert(unsigned short* src, unsigned char len,unsigned short key)
 {
     unsigned char  i,j, unchange;
     unsigned short tmp;

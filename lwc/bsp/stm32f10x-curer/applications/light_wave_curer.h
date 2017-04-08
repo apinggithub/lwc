@@ -43,25 +43,26 @@
 /* The pin NO. on the chip*/
 #define PC13_SPEAKER_CTRL               2 
 #define PD2_BEEP                        54 
-#define PB5_IONTHERAPY_RLY              57
-#define PB12_IONTHERAPY_PWR             33
-#define PB13_IONTHERAPY_CRL1            34
-#define PB14_IONTHERAPY_CRL2            35
-#define PB15_IONTHERAPY_DECT            36
-#define PA8_YY_IC_DECT                  41
-#define PB8_CUREI_FREQ                  61
-#define PB9_CUREII_FREQ                 62
+#define PB3_ION_PWR                     55
+#define PB4_ION_RLY                     56
+#define PB5_ION_DECT                    57
+#define PB6_ION_CRL1                    58
+#define PB7_ION_CRL2                    59
 
-#define PC13                       2
-#define PC14                       3
-#define PC15                       4
-#define PB3                       55
-#define PB4                       56
+//#define PA8_YY_IC_DECT                  41
+//#define PB8_CUREI_FREQ                  61
+//#define PB9_CUREII_FREQ                 62
+
+//#define PC13                       2
+//#define PC14                       3
+//#define PC15                       4
+//#define PB3                       55
+//#define PB4                       56
 
 //电流检测
-#define ADC_I_0A             2440 /*I = 0 ADC转换值*/
-#define ADC_I_2A0            2770 /*I = 2.0A ADC转换值*/ 
-#define ADC_I_2A5            2842 /*I = 2.5A ADC转换值*/ 
+#define ADC_I_0A             2345   //2440 /*I = 0 ADC转换值*/
+#define ADC_I_2A0            2675   //2770 /*I = 2.0A ADC转换值*/ 
+#define ADC_I_2A5            2747   //2842 /*I = 2.5A ADC转换值*/ 
 
 
 /* the registered device */
@@ -121,7 +122,7 @@
 #define RT_EVENT_LWC_IONICE_CURE_CLOSE      1<<7 /* 离子治疗关闭*/
 #define RT_EVENT_LWC_FUNCTION_CLOSE         1<<8 /* 功能治疗关闭*/
 #define RT_EVENT_LWC_ION_FUNC_START         1<<9 /* 离子治疗功能开启 */
-#define RT_EVENT_LWC_ION_TIME_UPDATE        1<<10 /* 离子治疗时间更新 */
+//#define RT_EVENT_LWC_ION_TIME_UPDATE        1<<10 /* 离子治疗时间更新 */
 #define RT_EVENT_LWC_ION_CURE_CLOSE         1<<11 /* 离子治疗关闭 */
 //#define RT_EVENT_LWC_WAIT_TMR_START         1<<12 /* 待机事件触发 */
 //#define RT_EVENT_LWC_ION_FORCE_DISPLAY      1<<13 /* 离子治疗强度显示 */
@@ -222,7 +223,7 @@ extern char mb_pool[128];
 extern lwc_cure_t lct;
 extern lwc_function_fm_t lff;
 extern struct rt_event event;
-extern struct rt_timer timerions;
+
 extern struct rt_timer timertip;
 extern uint32_t tmr_count_tip;
 

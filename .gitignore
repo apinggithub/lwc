@@ -33,9 +33,7 @@ _ReSharper*/
 *.bin
 *.hex
 *.axf
-*.pdb
 *.idb
-*.ilk
 build
 Debug
 documentation/html
@@ -46,5 +44,6 @@ documentation/html
 *.a
 *.i
 *.d
+*.TMP
 
 

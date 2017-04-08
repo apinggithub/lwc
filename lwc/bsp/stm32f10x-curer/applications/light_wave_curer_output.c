@@ -65,8 +65,7 @@ ALIGN(RT_ALIGN_SIZE)
 rt_uint8_t lwc_output_stack[5120];
 struct rt_thread lwc_output_thread;
 
-struct rt_timer timerions;
-static rt_uint16_t ion_count;
+//static rt_uint16_t ion_count;
 lwc_function_fm_t lff;
 
 
@@ -281,30 +280,17 @@ static rt_err_t timer6_timeout_cb(rt_device_t dev, rt_size_t size)
     }   
     return 0;
 }
-static void timeout_ionswtich(void* parameter)
-{
 
-	if(1200-1 > ion_count)
-    {
-        ion_count++;
-    }
-    else
-    {
-        ion_count = 0;
-        //rt_timer_stop(&timerions);
-        //rt_event_send(&event, RT_EVENT_LWC_TIMER_FINISH_CLOSE);
-    }
-}
 
 void lwc_output_thread_entry(void* parameter)
 {
     rt_err_t err;
-    rt_uint8_t vcno;
+    //rt_uint8_t vcno;
     rt_hwtimer_chfreq_t hwq;
     rt_hwtimer_chval_t hwc;
     rt_uint32_t recv_event;
     
-    rt_device_t dev_xtp = RT_NULL;
+    //rt_device_t dev_xtp = RT_NULL;
        
 #if 1    
 #ifdef RT_USING_HWTIM3  
@@ -401,6 +387,7 @@ void lwc_output_thread_entry(void* parameter)
         err = rt_device_close(dev_hwtimer4);
         while(1);
     } 
+    /*编译时，需要选择Leve 1 级优化，否则通道没有输出*/
     //hwq.ch = TMR_CH_CUREI_FREQ;           
     //rt_device_control(dev_hwtimer4, HWTIMER_CTRL_START, &hwq);  
     //hwq.ch = TMR_CH_CUREII_FREQ;           
@@ -494,7 +481,7 @@ void lwc_output_thread_entry(void* parameter)
         rt_kprintf("Open %s Fail\n", HWADC);
         while(1);
     }
-    rt_device_hwadc_t *hwadc = (rt_device_hwadc_t *)devadc;
+    //rt_device_hwadc_t *hwadc = (rt_device_hwadc_t *)devadc;
     
     if(RT_EOK != rt_device_control(devadc, HWTADC_CTRL_START, RT_NULL))
     {
@@ -502,35 +489,31 @@ void lwc_output_thread_entry(void* parameter)
         while(1);
     }
 #endif    
-	rt_timer_init(&timerions, "timerions", 
-	timeout_ionswtich, 
-	RT_NULL, 
-	1000, /*1000 tick */
-	RT_TIMER_FLAG_PERIODIC); 	
-	//rt_timer_start(&timerions);
-    
-           
+
+               
     rt_pin_mode(PD2_BEEP, PIN_MODE_OUTPUT);
-    rt_pin_mode(PB5_IONTHERAPY_RLY, PIN_MODE_OUTPUT);
-    rt_pin_mode(PB12_IONTHERAPY_PWR, PIN_MODE_OUTPUT);
-    rt_pin_mode(PB13_IONTHERAPY_CRL1, PIN_MODE_OUTPUT);
-    rt_pin_mode(PB14_IONTHERAPY_CRL2, PIN_MODE_OUTPUT);
-    rt_pin_mode(PB15_IONTHERAPY_DECT, PIN_MODE_INPUT);
+    rt_pin_mode(PB4_ION_RLY, PIN_MODE_OUTPUT);
+    rt_pin_mode(PB3_ION_PWR, PIN_MODE_OUTPUT);
+    rt_pin_mode(PB6_ION_CRL1, PIN_MODE_OUTPUT);
+    rt_pin_mode(PB7_ION_CRL2, PIN_MODE_OUTPUT);
+    rt_pin_mode(PB5_ION_DECT, PIN_MODE_INPUT);
     
     
     while(1)
     {
-        
-        rt_memcpy(adc, adc_convert, TOTAL_CHANNELS*sizeof(adc_dat_buffer_t));    
-        for(uint8_t i = 0; i < TOTAL_CHANNELS; i++)
+        #if 1
+        if(LWC_ACTIVED == lct.lcf[IONICE_CURE].cure_out_actived)
         {
-            bubble16(adc[i].adc_value, ADC_BUFF_LEN, 0);
-        }        
-        adc_valid[0] = adc[0].adc_value[ADC_BUFF_LEN/2];
-        #ifdef USER_HWADC_APP_BUG_TEST
-        rt_kprintf("adc[0]  value = %d -> %fV \r\n",adc_valid[0]&0xFFF,(float)(adc_valid[0]&0xFFF)*3.3/4096); 
-        #endif
-      
+            rt_memcpy(adc, adc_convert, TOTAL_CHANNELS*sizeof(adc_dat_buffer_t));    
+            for(uint8_t i = 0; i < TOTAL_CHANNELS; i++)
+            {
+                bubble16(adc[i].adc_value, ADC_BUFF_LEN, 0);
+            }        
+            adc_valid[0] = adc[0].adc_value[ADC_BUFF_LEN/2];
+            #ifdef USER_HWADC_APP_BUG_TEST
+            rt_kprintf("adc[0]  value = %d -> %fV \r\n",adc_valid[0]&0xFFF,(float)(adc_valid[0]&0xFFF)*3.3/4096); 
+            #endif
+        }
         //rt_pin_write(PB5_IONTHERAPY_SW, PIN_HIGH);
         //rt_pin_write(PB12_IONTHERAPY_PWR, PIN_LOW);	
         if (rt_event_recv(&event, (RT_EVENT_LWC_TIMER_FINISH_CLOSE
@@ -588,11 +571,11 @@ void lwc_output_thread_entry(void* parameter)
                     lct.lreg.btn.button_lzlf = 0;
                     lct.lway[IONICE_CURE].status = LWC_INACTIVE;
                     lct.lcf[IONICE_CURE].cure_out_actived = LWC_INACTIVE;
-                    rt_timer_stop(&timerions);
-                    rt_pin_write(PB12_IONTHERAPY_PWR, PIN_LOW);
-                    rt_pin_write(PB13_IONTHERAPY_CRL1,PIN_LOW);
-                    rt_pin_write(PB14_IONTHERAPY_CRL2,PIN_LOW);
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);                                     
+                    
+                    rt_pin_write(PB3_ION_PWR, PIN_LOW);
+                    rt_pin_write(PB6_ION_CRL1,PIN_LOW);
+                    rt_pin_write(PB7_ION_CRL2,PIN_LOW);
+                    rt_pin_write(PB4_ION_RLY, PIN_LOW);                                     
                     rt_pin_write(PD2_BEEP, PIN_LOW);                     
                     lct.ion_force_overtimes = 0;                                 
                     rt_event_send(&event, RT_EVENT_LWC_DEVICE_POWER_CLOSE);
@@ -605,8 +588,7 @@ void lwc_output_thread_entry(void* parameter)
                 break;
                 case RT_EVENT_LWC_GNZL_BUTTON_UPDATE:    
                 {
-                    if(((0 <= lct.lreg.btn.button_gn)&&(9 >= lct.lreg.btn.button_gn))
-                        &&((0 == lct.lreg.btn.button_zl1 )&&(0 == lct.lreg.btn.button_zl2 )))
+                    if((9 >= lct.lreg.btn.button_gn)&&((0 == lct.lreg.btn.button_zl1 )&&(0 == lct.lreg.btn.button_zl2 )))                        
                     {                                                
                         rt_timer_start(&timertip);                        
                         flag_force_voice_play = 1;                        
@@ -706,16 +688,16 @@ void lwc_output_thread_entry(void* parameter)
                     //#endif
                     
                     lct.lcf[IONICE_CURE].cure_out_actived = LWC_ACTIVED; 
-                    rt_event_send(&event, RT_EVENT_LWC_ION_TIME_UPDATE);
+                    //rt_event_send(&event, RT_EVENT_LWC_ION_TIME_UPDATE);
                 }
                 break;
                 case RT_EVENT_LWC_ION_CURE_CLOSE:
                 {
-                    rt_timer_stop(&timerions);
-                    rt_pin_write(PB12_IONTHERAPY_PWR, PIN_LOW);
-                    rt_pin_write(PB13_IONTHERAPY_CRL1,PIN_LOW);
-                    rt_pin_write(PB14_IONTHERAPY_CRL2,PIN_LOW);
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);                                     
+                    
+                    rt_pin_write(PB3_ION_PWR, PIN_LOW);
+                    rt_pin_write(PB6_ION_CRL1,PIN_LOW);
+                    rt_pin_write(PB7_ION_CRL2,PIN_LOW);
+                    rt_pin_write(PB4_ION_RLY, PIN_LOW);                                     
                     rt_pin_write(PD2_BEEP, PIN_LOW);  
                     lct.lcf[IONICE_CURE].cure_out_actived = LWC_INACTIVE;
                 }
@@ -725,7 +707,7 @@ void lwc_output_thread_entry(void* parameter)
             }                      
         }        
         lwc_cure_ion_output((lwc_cure_t *)&lct);     
-      
+        #endif
         rt_thread_delay( RT_TICK_PER_SECOND/100 );
         
     }
@@ -932,7 +914,7 @@ static rt_err_t lwc_cure_timer2_output(rt_device_t dev, lwc_cure_t *lc)
     RT_ASSERT(lc != RT_NULL);
     //rt_device_hwtimer_t *timer = (rt_device_hwtimer_t *)dev;   
     rt_hwtimer_chval_t hwc; 
-    rt_hwtimer_tmrval_t hwt; 
+    //rt_hwtimer_tmrval_t hwt; 
     
     if(LWC_ACTIVED == lc->lway[FUNCTION].status)
     {
@@ -1143,55 +1125,55 @@ static rt_err_t lwc_cure_ion_output(lwc_cure_t *lc)
             if(LWC_INACTIVE == lc->lcf[IONICE_CURE].cure_out_actived)
             {                
                 lc->lcf[IONICE_CURE].cure_out_actived = LWC_ACTIVED;
-                rt_timer_start(&timerions);                    
+                                  
             }            
-            if((1 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB15_IONTHERAPY_DECT)))/* low turn on  control 1 2 */
+            if((1 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB5_ION_DECT)))/* low turn on  control 1 2 */
             {
                                                    
-                rt_pin_write(PB12_IONTHERAPY_PWR, PIN_HIGH);
-                rt_pin_write(PB13_IONTHERAPY_CRL1, PIN_HIGH);
-                rt_pin_write(PB14_IONTHERAPY_CRL2, PIN_HIGH);
-                if(600 > ion_count)
+                rt_pin_write(PB3_ION_PWR, PIN_HIGH);
+                rt_pin_write(PB6_ION_CRL1, PIN_HIGH);
+                rt_pin_write(PB7_ION_CRL2, PIN_HIGH);
+                if(15 < lc->lreg.tval.tmr_value)
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);
+                    rt_pin_write(PB4_ION_RLY, PIN_LOW);
                 }
                 else
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_HIGH);
+                    rt_pin_write(PB4_ION_RLY, PIN_HIGH);
                 }
                 rt_pin_write(PD2_BEEP, PIN_LOW);   
                 flag_beep_warning &= ~(1<<0);
             }
-            else if((2 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB15_IONTHERAPY_DECT))) /* middle turn on  control 2 */
+            else if((2 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB5_ION_DECT))) /* middle turn on  control 2 */
             {
                                              
-                rt_pin_write(PB12_IONTHERAPY_PWR, PIN_HIGH);
-                rt_pin_write(PB13_IONTHERAPY_CRL1,PIN_LOW);
-                rt_pin_write(PB14_IONTHERAPY_CRL2,PIN_HIGH);
-                if(600 > ion_count)
+                rt_pin_write(PB3_ION_PWR, PIN_HIGH);
+                rt_pin_write(PB6_ION_CRL1,PIN_LOW);
+                rt_pin_write(PB7_ION_CRL2,PIN_HIGH);
+                if(15 < lc->lreg.tval.tmr_value)
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);
+                    rt_pin_write(PB4_ION_RLY, PIN_LOW);
                 }
                 else
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_HIGH);
+                    rt_pin_write(PB4_ION_RLY, PIN_HIGH);
                 }
                 rt_pin_write(PD2_BEEP, PIN_LOW);
                 flag_beep_warning &= ~(1<<0);
             }
-            else if((3 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB15_IONTHERAPY_DECT))) /* hight turn on  control 1 */
+            else if((3 == lc->lreg.btn.button_lzlf)&&(PIN_LOW == rt_pin_read(PB5_ION_DECT))) /* hight turn on  control 1 */
             {
                                                              
-                rt_pin_write(PB12_IONTHERAPY_PWR, PIN_HIGH);
-                rt_pin_write(PB13_IONTHERAPY_CRL1,PIN_HIGH);
-                rt_pin_write(PB14_IONTHERAPY_CRL2,PIN_LOW);
-                if(600 > ion_count)
+                rt_pin_write(PB3_ION_PWR, PIN_HIGH);
+                rt_pin_write(PB6_ION_CRL1,PIN_HIGH);
+                rt_pin_write(PB7_ION_CRL2,PIN_LOW);
+                if(15 < lc->lreg.tval.tmr_value)
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);
+                    rt_pin_write(PB4_ION_RLY, PIN_LOW);
                 }
                 else
                 {
-                    rt_pin_write(PB5_IONTHERAPY_RLY, PIN_HIGH);
+                    rt_pin_write(PB4_ION_RLY, PIN_HIGH);
                 } 
                 rt_pin_write(PD2_BEEP, PIN_LOW);  
                 flag_beep_warning &= ~(1<<0);
@@ -1251,11 +1233,11 @@ static rt_err_t lwc_cure_ion_output(lwc_cure_t *lc)
             
             if((flag_beep_warning&(1<<0))== (1<<0))
             {
-                rt_pin_write(PB12_IONTHERAPY_PWR, PIN_LOW);
-                rt_pin_write(PB13_IONTHERAPY_CRL1,PIN_LOW);
-                rt_pin_write(PB14_IONTHERAPY_CRL2,PIN_LOW);
+                rt_pin_write(PB3_ION_PWR, PIN_LOW);
+                rt_pin_write(PB6_ION_CRL1,PIN_LOW);
+                rt_pin_write(PB7_ION_CRL2,PIN_LOW);
                 //rt_pin_write(PB5_IONTHERAPY_RLY, PIN_LOW);
-                //rt_timer_stop(&timerions);
+                
                 if((TMR_DELAY_100ms >= tmr_count)
                     ||((TMR_DELAY_200ms <= tmr_count)&&(TMR_DELAY_300ms >= tmr_count))
                     ||((TMR_DELAY_400ms <= tmr_count)&&(TMR_DELAY_500ms >= tmr_count))

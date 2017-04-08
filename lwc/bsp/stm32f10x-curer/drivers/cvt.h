@@ -1,5 +1,4 @@
 
-
 #ifndef __CVT_H__
 #define __CVT_H__
 
@@ -17,20 +16,20 @@ extern float StrToFloat(char* pstrfloat);
 
 //无符号短整型数组排序
 //src---数组首地址，len数组长度(0~255)，up_down---0表示升序，---1表示降序
-extern void bubble16(unsigned short *src, unsigned char len, unsigned char up_down);
-extern void bubble32(unsigned int *src, unsigned char len, unsigned char up_down);
+void bubble16(unsigned short *src, unsigned char len, unsigned char up_down);
+void bubble32(unsigned int *src, unsigned char len, unsigned char up_down);
 
 //在有序表R[1..n]中进行二分查找，成功时返回结点的位置，失败时返回-1
-extern char BinSearch(unsigned short *src, unsigned char len, unsigned short key);
+int BinSearch(unsigned short *src, unsigned char len, unsigned short key);
 
 //在有序表R[1..n]中进行二分查找，成功时返回结点的位置，失败时返回-1
-extern char BinSearchDelete(unsigned short *src, unsigned char len, unsigned short key);
+int BinSearchDelete(unsigned short *src, unsigned char len, unsigned short key);
 
 //二分插入法插入指定元素,前提是该队列未满,返回插入的位置
-extern char BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key);
+int BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key);
 
 //元素插入后按冒泡法排序，然后返回元素的序列号，失败返回-1。
-char BubbleInsert(unsigned short* src, unsigned char len,unsigned short key);
+int BubbleInsert(unsigned short* src, unsigned char len,unsigned short key);
 
 //二分法获取索引元素，失败返回-1
 unsigned short GetBinSearchValue(unsigned short *src, unsigned char len, unsigned char index);

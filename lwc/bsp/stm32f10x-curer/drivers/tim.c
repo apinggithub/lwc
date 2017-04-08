@@ -178,12 +178,19 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
   if(timHandle->Instance==TIM2)
   {
     /**TIM2 GPIO Configuration    
-    PA0-WKUP     ------> TIM2_CH1
+    PA0-WKUP------> TIM2_CH1
     PA1     ------> TIM2_CH2
     PA2     ------> TIM2_CH3
     PA3     ------> TIM2_CH4 
-    */
       
+    Remap Pin:
+    P     ------> TIM2_CH1
+    P     ------> TIM2_CH2
+    PB10     ------> TIM2_CH3
+    PB11     ------> TIM2_CH4 
+    */
+    #if 0  
+    //#ifndef RT_USING_REMAP_TIM2_FULL  
     __HAL_RCC_GPIOA_CLK_ENABLE();  
     /*GPIO_InitStruct.Pin = 0;     
     #ifdef  RT_USING_HWTIM2_CH1   
@@ -198,7 +205,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     #ifdef  RT_USING_HWTIM2_CH4   
     GPIO_InitStruct.Pin |= GPIO_PIN_3;
     #endif*/
-    #if 0
+    
     HAL_GPIO_DeInit(GPIOA,  GPIO_PIN_2|GPIO_PIN_3);
     
     GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_3;    
@@ -206,8 +213,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
     #endif
-    
-    #if 1     
+    #if 1
     __HAL_RCC_GPIOB_CLK_ENABLE();      
     GPIO_InitStruct.Pin = GPIO_PIN_10|GPIO_PIN_11;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
@@ -267,7 +273,7 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     */
       
     __HAL_RCC_GPIOB_CLK_ENABLE();
-      
+    /*GPIO_InitStruct.Pin = 0;  
     #ifdef  RT_USING_HWTIM4_CH1          
     GPIO_InitStruct.Pin |= GPIO_PIN_6;
     #endif  
@@ -279,12 +285,15 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef* timHandle)
     #endif
     #ifdef  RT_USING_HWTIM4_CH4 
     GPIO_InitStruct.Pin |= GPIO_PIN_9;
-    #endif 
-    
+    #endif*/ 
+    HAL_GPIO_DeInit(GPIOB,  GPIO_PIN_8|GPIO_PIN_9);
+    GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_9;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);    
+    //GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    __HAL_AFIO_REMAP_TIM4_DISABLE();
+    
    }  
 #endif /* RT_USING_HWTIM4 */ 
 

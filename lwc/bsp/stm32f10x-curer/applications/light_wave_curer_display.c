@@ -62,7 +62,7 @@ void lwc_display_thread_entry(void* parameter)
     //rt_err_t result;
     //lwc_cure_display_t *rlwc;
     rt_device_t dev_slcd = RT_NULL;
-    rt_uint32_t recv_event;
+    //rt_uint32_t recv_event;
     
     rt_memset(&lct.lreg.btn, 0, sizeof(lwc_button_t));
     rt_memset(&lct.lreg.tval, 0, sizeof(timer_val_t));

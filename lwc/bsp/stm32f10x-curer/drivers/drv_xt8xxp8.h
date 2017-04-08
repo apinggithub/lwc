@@ -17,17 +17,21 @@
 #include <stdint.h> 
 #include <drivers/xt8xxp8.h>
 
+#define XTP_PORT                GPIOC
+#define XTP_DAT_PIN             GPIO_PIN_10
+#define XTP_CLK_PIN             GPIO_PIN_11
+
 #ifdef RT_USING_XTP_ONE_WRIRE
 #define XTP_DAT_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_SET)                                             
 #define XTP_DAT_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_RESET)  
 #else 
-#define XTP_RST_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_SET)                                             
-#define XTP_RST_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_RESET) 
-#define XTP_DAT_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_11,GPIO_PIN_SET)                                             
-#define XTP_DAT_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_11,GPIO_PIN_RESET) 
-#define XTP_CLK_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_12,GPIO_PIN_SET)                                             
-#define XTP_CLK_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_12,GPIO_PIN_RESET) 
-#define XTP_CLK_TOGGLE()  HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_12) 
+//#define XTP_RST_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_SET)                                             
+//#define XTP_RST_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_10,GPIO_PIN_RESET) 
+#define XTP_DAT_H()  HAL_GPIO_WritePin(XTP_PORT,XTP_DAT_PIN,GPIO_PIN_SET)                                             
+#define XTP_DAT_L()  HAL_GPIO_WritePin(XTP_PORT,XTP_DAT_PIN,GPIO_PIN_RESET) 
+#define XTP_CLK_H()  HAL_GPIO_WritePin(XTP_PORT,XTP_CLK_PIN,GPIO_PIN_SET)                                             
+#define XTP_CLK_L()  HAL_GPIO_WritePin(XTP_PORT,XTP_CLK_PIN,GPIO_PIN_RESET) 
+//#define XTP_CLK_TOGGLE()  HAL_GPIO_TogglePin(GPIOC,GPIO_PIN_12) 
 #endif
 
 int stm32_xtp_init(void);

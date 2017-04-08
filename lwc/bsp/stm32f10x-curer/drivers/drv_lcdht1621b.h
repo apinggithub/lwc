@@ -20,14 +20,14 @@
 #define LCDHT_CS_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_6,GPIO_PIN_SET)                                             
 #define LCDHT_CS_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_6,GPIO_PIN_RESET)  
 
-#define LCDHT_WR_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_SET)                                                      
-#define LCDHT_WR_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_RESET)
+#define LCDHT_WR_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_7,GPIO_PIN_SET)                                                      
+#define LCDHT_WR_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_7,GPIO_PIN_RESET)
 
-#define LCDHT_DAT_H() HAL_GPIO_WritePin(GPIOC,GPIO_PIN_9,GPIO_PIN_SET)                                             
-#define LCDHT_DAT_L() HAL_GPIO_WritePin(GPIOC,GPIO_PIN_9,GPIO_PIN_RESET)
+#define LCDHT_DAT_H() HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_SET)                                             
+#define LCDHT_DAT_L() HAL_GPIO_WritePin(GPIOC,GPIO_PIN_8,GPIO_PIN_RESET)
 
-#define LCDHT_BKL_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_7,GPIO_PIN_SET)                                                        
-#define LCDHT_BKL_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_7,GPIO_PIN_RESET)
+#define LCDHT_BKL_H()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_9,GPIO_PIN_SET)                                                        
+#define LCDHT_BKL_L()  HAL_GPIO_WritePin(GPIOC,GPIO_PIN_9,GPIO_PIN_RESET)
 
 enum LCDHT_CTRL
 {
