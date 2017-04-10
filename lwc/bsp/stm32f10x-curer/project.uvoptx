@@ -143,6 +143,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -155,10 +159,6 @@
           <Number>0</Number>
           <Key>ARMDBGFLAGS</Key>
           <Name></Name>
-        </SetRegEntry>
-        <SetRegEntry>
-          <Number>0</Number>
-          <Key>DLGUARM</Key>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -177,7 +177,7 @@
           <Type>0</Type>
           <LineNumber>502</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134220564</Address>
+          <Address>134220298</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -191,34 +191,18 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>390</LineNumber>
+          <LineNumber>1627</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134232600</Address>
+          <Address>134222908</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>applications\light_wave_curer_output.c</Filename>
+          <Filename>applications\light_wave_curer_display.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\rtthread_stm32\applications/light_wave_curer_output.c\390</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>392</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134232616</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>applications\light_wave_curer_output.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\rtthread_stm32\applications/light_wave_curer_output.c\392</Expression>
+          <Expression>\\rtthread_stm32\applications/light_wave_curer_display.c\1627</Expression>
         </Bp>
       </Breakpoint>
       <Tracepoint>
@@ -256,12 +240,6 @@
       <Lin2Executable></Lin2Executable>
       <Lin2ConfigFile></Lin2ConfigFile>
       <bLin2Auto>0</bLin2Auto>
-      <SystemViewers>
-        <Entry>
-          <Name>System Viewer\TIM4</Name>
-          <WinId>35905</WinId>
-        </Entry>
-      </SystemViewers>
       <DebugDescription>
         <Enable>1</Enable>
         <EnableLog>0</EnableLog>

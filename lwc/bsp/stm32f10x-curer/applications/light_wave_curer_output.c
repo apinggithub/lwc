@@ -501,7 +501,7 @@ void lwc_output_thread_entry(void* parameter)
     
     while(1)
     {
-        #if 1
+        
         if(LWC_ACTIVED == lct.lcf[IONICE_CURE].cure_out_actived)
         {
             rt_memcpy(adc, adc_convert, TOTAL_CHANNELS*sizeof(adc_dat_buffer_t));    
@@ -707,7 +707,7 @@ void lwc_output_thread_entry(void* parameter)
             }                      
         }        
         lwc_cure_ion_output((lwc_cure_t *)&lct);     
-        #endif
+        
         rt_thread_delay( RT_TICK_PER_SECOND/100 );
         
     }
@@ -906,7 +906,7 @@ static rt_err_t lwc_cure_timer3_output(rt_device_t dev, lwc_cure_t *lc)
     }
     return err;
 }
-#if 1
+
 static rt_err_t lwc_cure_timer2_output(rt_device_t dev, lwc_cure_t *lc)
 {
     rt_err_t err = RT_EOK;
@@ -1002,7 +1002,7 @@ static rt_err_t lwc_cure_timer2_output(rt_device_t dev, lwc_cure_t *lc)
     }  
     return err;
 }
-#endif
+
 static rt_err_t lwc_cure_timer4_output(rt_device_t dev, lwc_cure_t *lc)
 {
     rt_err_t err = RT_EOK;
@@ -1191,6 +1191,7 @@ static rt_err_t lwc_cure_ion_output(lwc_cure_t *lc)
             根据测试数据，
             Ip = 0,     Vout = 1.98V, ADC -> 2440
             Ip = 2.0A   Vout = 2.27V, ADC -> 2770
+            Ip = 2.3A   Vout = 2.27V, ADC -> 2770
             Ip = 2.5A , Vout = 2.334V,ADC -> 2842
                        
             可用电流范围 0~2.5A > 2440 ~ 2842 -> 0~ 402 
@@ -1201,7 +1202,7 @@ static rt_err_t lwc_cure_ion_output(lwc_cure_t *lc)
             //{
                 if((adc_valid[0] - ADC_I_0A) > 0)
                 {
-                    lc->ion_force = (uint8_t)((adc_valid[0] - ADC_I_0A) * 12.0 / 402);           
+                    lc->ion_force = (uint8_t)((adc_valid[0] - ADC_I_0A) * 12.0 /(ADC_I_2A3 - ADC_I_0A) );           
                 }
                 else
                 {
@@ -1211,18 +1212,14 @@ static rt_err_t lwc_cure_ion_output(lwc_cure_t *lc)
             if(lc->ion_force > 12)
             {
                 lc->ion_force = 12;
-            } 
-            else if(lc->ion_force >= 10)
-            {
-                lc->ion_force = 11;
-            }
+            }             
             else if(lc->ion_force <= 0)
             {
                 lc->ion_force = 0;
             }
             //rt_event_send(&event, RT_EVENT_LWC_ION_FORCE_DISPLAY);
             
-            if(adc_valid[0] > ADC_I_2A5 + 100)
+            if(adc_valid[0] > ADC_I_2A3 )//ADC_I_2A5
             {
                 lc->ion_force_overtimes++;               
             }

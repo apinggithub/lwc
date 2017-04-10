@@ -60,9 +60,10 @@
 //#define PB4                       56
 
 //电流检测
-#define ADC_I_0A             2345   //2440 /*I = 0 ADC转换值*/
-#define ADC_I_2A0            2675   //2770 /*I = 2.0A ADC转换值*/ 
-#define ADC_I_2A5            2747   //2842 /*I = 2.5A ADC转换值*/ 
+#define ADC_I_0A             2344   //2440 /*I = 0 ADC转换值*/
+#define ADC_I_2A0            3030   //2770 /*I = 2.0A ADC转换值*/ 
+#define ADC_I_2A3            3080   //2770 /*I = 2.3A ADC转换值*/ 
+#define ADC_I_2A5            3132   //2842 /*I = 2.5A ADC转换值*/ 
 
 
 /* the registered device */

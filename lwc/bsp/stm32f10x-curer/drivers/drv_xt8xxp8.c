@@ -98,9 +98,9 @@ static void XTP_SendBitLsb(uint8_t dat)
     //XTP_RST_H();//reset pin
     XTP_DAT_H();//data pin
     XTP_CLK_L();/* clock pin rising edge to lock data */   
-    //XTP_RST_L();
-    //rt_thread_delay(RT_TICK_PER_SECOND*10/1000);  //30ms
-    //XTP_RST_H();
+    XTP_RST_L();
+    rt_thread_delay(RT_TICK_PER_SECOND*10/1000);  //30ms
+    XTP_RST_H();
     rt_thread_delay(RT_TICK_PER_SECOND*10/1000); 
     for (uint8_t i = 0; i < 8; i++)
     {
@@ -143,6 +143,14 @@ static rt_err_t drv_xtp_init(rt_device_t dev)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 #else
+    /*Configure GPIO pins : PB2
+    PB2 ---> the voice chip data     
+    */
+    GPIO_InitStruct.Pin = XTP_RST_PIN; 
+    GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    HAL_GPIO_Init(XTP_RST_PORT, &GPIO_InitStruct);
     /*Configure GPIO pins : PC10 PC11 
     PC10 ---> the voice chip data 
     PC11 ---> the voice chip clock 
@@ -151,7 +159,7 @@ static rt_err_t drv_xtp_init(rt_device_t dev)
     GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
     GPIO_InitStruct.Pull = GPIO_PULLUP;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    HAL_GPIO_Init(XTP_PORT, &GPIO_InitStruct);
+    HAL_GPIO_Init(XTP_DAT_PORT, &GPIO_InitStruct);
     XTP_DAT_H();
     XTP_CLK_H();
     
