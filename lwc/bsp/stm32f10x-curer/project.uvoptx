@@ -143,6 +143,10 @@
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
+          <Key>DLGUARM</Key>
+        </SetRegEntry>
+        <SetRegEntry>
+          <Number>0</Number>
           <Key>ARMRTXEVENTFLAGS</Key>
           <Name>-L70 -Z18 -C0 -M0 -T1</Name>
         </SetRegEntry>
@@ -171,18 +175,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>1627</LineNumber>
+          <LineNumber>643</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134222908</Address>
+          <Address>134233374</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>applications\light_wave_curer_display.c</Filename>
+          <Filename>applications\light_wave_curer_output.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\rtthread_stm32\applications/light_wave_curer_display.c\1627</Expression>
+          <Expression>\\\applications/light_wave_curer_output.c\643</Expression>
         </Bp>
       </Breakpoint>
       <Tracepoint>

@@ -397,14 +397,15 @@ void lwc_button_thread_entry(void* parameter)
                     lct.lreg.btn.button_jg++;
                     if( lct.lreg.btn.button_jg > 3)
                     {    
+                                               
+                        lct.lreg.btn.button_jg = 0;
+                        lct.lway[LASER_CURE].status = LWC_INACTIVE;
+                        rt_event_send(&event, RT_EVENT_LWC_LASER_CURE_CLOSE);
                         if((0 == flag_voice_close)&&(10 != lct.lreg.btn.button_gn))
                         {
                             vcno = 0x5A + 28;/* 激光治疗关闭 */                   
                             rt_device_write(dev_xtp, 0, &vcno, sizeof(vcno));   
-                        }                        
-                        lct.lreg.btn.button_jg = 0;
-                        lct.lway[LASER_CURE].status = LWC_INACTIVE;
-                        rt_event_send(&event, RT_EVENT_LWC_LASER_CURE_CLOSE);
+                        } 
                         if((LWC_INACTIVE == lct.lway[HEAT_CURE].status)&&(LWC_INACTIVE == lct.lcf[FUNCTION].cure_out_actived))
                         {
                             flag_tmrval_start = 0;
@@ -453,15 +454,15 @@ void lwc_button_thread_entry(void* parameter)
                     lct.lreg.tval.tmr_lock = 1;         
                     lct.lreg.btn.button_rl++;
                     if( lct.lreg.btn.button_rl > 3)
-                    {
+                    {                                              
+                        lct.lreg.btn.button_rl = 0;
+                        lct.lway[HEAT_CURE].status = LWC_INACTIVE;
+                        rt_event_send(&event, RT_EVENT_LWC_HEAT_CURE_CLOSE);
                         if((0 == flag_voice_close)&&(10 != lct.lreg.btn.button_gn))
                         {
                             vcno = 0x5A + 8;/* 热疗停止 */                   
                             rt_device_write(dev_xtp, 0, &vcno, sizeof(vcno));     
-                        }                        
-                        lct.lreg.btn.button_rl = 0;
-                        lct.lway[HEAT_CURE].status = LWC_INACTIVE;
-                        rt_event_send(&event, RT_EVENT_LWC_HEAT_CURE_CLOSE);
+                        } 
                         if((LWC_INACTIVE == lct.lway[LASER_CURE].status)&&(LWC_INACTIVE == lct.lcf[FUNCTION].cure_out_actived))
                         {
                             flag_tmrval_start = 0;
