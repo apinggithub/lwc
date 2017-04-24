@@ -481,11 +481,12 @@ int BubbleInsert(unsigned short* src, unsigned char len,unsigned short key)
 }
 
 //二分法获取索引元素，失败返回-1
-unsigned short GetBinSearchValue(unsigned short *src, unsigned char len, unsigned char index)
+signed short GetBinSearchValue(unsigned short *src, unsigned char len, unsigned char index)
 {       
    unsigned char low,high, mid;//置当前查找区间上、下界的初值
    
-   if(index > len-1) return -1;
+   if(index > len-1) 
+       return -1;
  
    while((len>1)&&(src[len-1]==0)) len--;
    low = 0;

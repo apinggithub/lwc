@@ -809,7 +809,15 @@ static rt_err_t lwc_cure_timer3_output(rt_device_t dev, lwc_cure_t *lc)
                     rt_kprintf("Set ch = %d pwm = %d ok,\n", hwc.ch, hwc.value);
                     #endif
                 }
-            }                                               
+            }
+            else
+            {
+                lc->lreg.btn.button_jg = 0;
+                lc->lway[LASER_CURE].status = LWC_INACTIVE;
+                lc->lcf[LASER_CURE].cure_out_actived = LWC_INACTIVE;
+                hwc.ch = TMR_CH_LASER_PWM;
+                rt_device_control(dev, HWTIMER_CTRL_STOP, &hwc); 
+            }
         }             
     }
     if(LWC_ACTIVED == lc->lway[HEAT_CURE].status)
@@ -901,7 +909,15 @@ static rt_err_t lwc_cure_timer3_output(rt_device_t dev, lwc_cure_t *lc)
                     rt_kprintf("Set ch = %d pwm = %d ok,\n", hwc.ch, hwc.value);
                     #endif
                 }
-            }                                               
+            } 
+            else
+            {
+                lc->lreg.btn.button_rl = 0;
+                lc->lway[HEAT_CURE].status = LWC_INACTIVE;
+                lc->lcf[HEAT_CURE].cure_out_actived = LWC_INACTIVE;
+                hwc.ch = TMR_CH_HEAT_PWM;
+                rt_device_control(dev, HWTIMER_CTRL_STOP, &hwc); 
+            }
         } 
     }
     return err;

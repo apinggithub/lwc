@@ -32,7 +32,7 @@ int BinSearchInsert(unsigned short* src, unsigned char len,unsigned short key);
 int BubbleInsert(unsigned short* src, unsigned char len,unsigned short key);
 
 //二分法获取索引元素，失败返回-1
-unsigned short GetBinSearchValue(unsigned short *src, unsigned char len, unsigned char index);
+signed short GetBinSearchValue(unsigned short *src, unsigned char len, unsigned char index);
 
 //获取升序有序表的最大值
 unsigned short GetBubbleMaxValue(unsigned short *src, unsigned char len );
